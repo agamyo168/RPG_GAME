@@ -3,6 +3,7 @@
 pkgs.mkShell {
   buildInputs = [
     pkgs.clang-tools
+    pkgs.clang
     pkgs.cmake
     pkgs.gcc
   ];
