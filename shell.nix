@@ -6,6 +6,8 @@ pkgs.mkShell {
     pkgs.clang
     pkgs.cmake
     pkgs.gcc
+    pkgs.sfml
+    # pkgs.llvmPackages.libcxxClang # Use libc++ (optional)
   ];
 
   shellHook = ''
