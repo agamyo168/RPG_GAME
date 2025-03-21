@@ -1,4 +1,6 @@
 #include "Game/Game.hpp"
+#include "State/GameState.hpp"
+#include "Utils/ShellHandler.hpp"
 // #include <cstdlib>
 #include <SFML/Window/ContextSettings.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -21,8 +23,22 @@ void Game::initWindow() {
   this->window->setFramerateLimit(framerate_limit);
   this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
-Game::Game() { this->initWindow(); }
-Game::~Game() { delete this->window; }
+void Game::initStates() {
+  // GameState
+  this->states.push(new GameState(this->window));
+}
+Game::Game() {
+  this->initWindow();
+  this->initStates();
+}
+Game::~Game() {
+  delete this->window;
+  while (!this->states.empty()) {
+    delete this->states.top();
+    this->states.pop();
+  }
+}
+// Game Loop
 void Game::run() {
   while (window->isOpen()) {
     this->updateDt();
@@ -31,17 +47,11 @@ void Game::run() {
   }
 }
 
-void clearShellScreen() {
-#ifdef _WIN32
-  int result = system("cls"); // Windows
-#elif linux
-  int result = system("clear");
-#endif
-  if (result != 0) {
-    std::cerr << "Failed to clear the screen!" << std::endl;
-  }
+void Game::update() {
+  this->updateSFMLEvents();
+  if (!this->states.empty())
+    this->states.top()->update(this->dt);
 }
-void Game::update() { this->updateSFMLEvents(); }
 void Game::updateDt() {
   /* Update dt with the time it takes to update and render a frame*/
   this->dt = this->dtClock.restart().asSeconds();
@@ -50,6 +60,8 @@ void Game::updateDt() {
 }
 void Game::render() {
   window->clear();
+  if (!this->states.empty())
+    this->states.top()->render(this->window);
   window->display();
 }
 void Game::updateSFMLEvents() {

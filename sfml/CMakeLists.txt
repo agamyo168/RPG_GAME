@@ -19,6 +19,9 @@ target_sources(my_program
     PRIVATE
         src/main.cpp
         src/Game/Game.cpp
+        src/State/State.cpp
+        src/State/GameState.cpp
+        src/Utils/ShellHandler.cpp
 )
 
 # Group header files
