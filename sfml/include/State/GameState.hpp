@@ -1,5 +1,6 @@
 #ifndef GAMESTATE_HPP
 #define GAMESTATE_HPP
+#include "Entity/Entity.hpp"
 #include "State/State.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -7,6 +8,8 @@
 
 class GameState : public State {
 private:
+  Entity player;
+
 public:
   GameState(sf::RenderWindow *window);
   virtual ~GameState();

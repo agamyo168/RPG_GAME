@@ -21,6 +21,7 @@ target_sources(my_program
         src/Game/Game.cpp
         src/State/State.cpp
         src/State/GameState.cpp
+        src/Entity/Entity.cpp
         src/Utils/ShellHandler.cpp
 )
 

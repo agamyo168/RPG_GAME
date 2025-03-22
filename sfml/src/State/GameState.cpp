@@ -14,5 +14,12 @@ void GameState::endState() {
   if (!this->getQuit())
     std::cout << "Game state exited!" << std::endl;
 }
-void GameState::update(const float &dt) { this->updateKeybinds(dt); }
-void GameState::render(sf::RenderTarget *target) {}
+void GameState::update(const float &dt) {
+  this->updateKeybinds(dt);
+  this->player.update(dt);
+}
+void GameState::render(sf::RenderTarget *target) {
+  if (!target)
+    target = this->window;
+  this->player.render(target);
+}
