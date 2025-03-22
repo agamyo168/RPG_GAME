@@ -49,9 +49,19 @@ void Game::run() {
 
 void Game::update() {
   this->updateSFMLEvents();
-  if (!this->states.empty())
+  if (!this->states.empty()) {
     this->states.top()->update(this->dt);
+    if (this->states.top()->getQuit()) {
+      this->states.top()->endState();
+      delete this->states.top();
+      this->states.pop();
+    }
+
+  } else {
+    endApplication();
+  }
 }
+void Game::endApplication() { this->window->close(); }
 void Game::updateDt() {
   /* Update dt with the time it takes to update and render a frame*/
   this->dt = this->dtClock.restart().asSeconds();

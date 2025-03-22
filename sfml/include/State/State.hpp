@@ -11,14 +11,23 @@ class State {
 private:
   std::vector<sf::Texture> textures;
   sf::RenderWindow *window;
+  bool quit;
 
 public:
   State(sf::RenderWindow *window);
   virtual ~State();
+  const bool &getQuit() const;
+  void checkForQuit();
+  void setQuit(const bool &value);
+
   virtual void endState() = 0;
-  virtual void update(
-      const float &dt) = 0; // PURE VIRTUAL FUNCTION -> Makes sure that when
-                            // you inherit from State you must overwrite them.
+
+  ////////////////////////////////////////////////////////////
+  /// \brief Checks for keyboard strokes.
+  ///
+  ////////////////////////////////////////////////////////////
+  virtual void updateKeybinds(const float &dt) = 0;
+  virtual void update(const float &dt) = 0;
   virtual void render(sf::RenderTarget *target = nullptr) = 0;
 };
 #endif
